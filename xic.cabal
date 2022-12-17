@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.35.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -30,7 +30,53 @@ library
       Paths_xic
   hs-source-dirs:
       src
+  default-extensions:
+      BangPatterns
+      BlockArguments
+      ConstraintKinds
+      DataKinds
+      DefaultSignatures
+      DeriveDataTypeable
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveLift
+      DeriveTraversable
+      DerivingStrategies
+      DerivingVia
+      EmptyCase
+      ExistentialQuantification
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      KindSignatures
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      NoFieldSelectors
+      DuplicateRecordFields
+      OverloadedStrings
+      PatternSynonyms
+      QuantifiedConstraints
+      RankNTypes
+      RoleAnnotations
+      ScopedTypeVariables
+      StandaloneDeriving
+      StandaloneKindSignatures
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeFamilyDependencies
+      TypeOperators
+      UnliftedNewtypes
+      ViewPatterns
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+  build-tools:
+      alex
   build-depends:
       base >=4.7 && <5
   default-language: Haskell2010
@@ -41,7 +87,53 @@ executable xic-exe
       Paths_xic
   hs-source-dirs:
       app
+  default-extensions:
+      BangPatterns
+      BlockArguments
+      ConstraintKinds
+      DataKinds
+      DefaultSignatures
+      DeriveDataTypeable
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveLift
+      DeriveTraversable
+      DerivingStrategies
+      DerivingVia
+      EmptyCase
+      ExistentialQuantification
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      KindSignatures
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      NoFieldSelectors
+      DuplicateRecordFields
+      OverloadedStrings
+      PatternSynonyms
+      QuantifiedConstraints
+      RankNTypes
+      RoleAnnotations
+      ScopedTypeVariables
+      StandaloneDeriving
+      StandaloneKindSignatures
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeFamilyDependencies
+      TypeOperators
+      UnliftedNewtypes
+      ViewPatterns
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-tools:
+      alex
   build-depends:
       base >=4.7 && <5
     , xic
@@ -54,7 +146,53 @@ test-suite xic-test
       Paths_xic
   hs-source-dirs:
       test
+  default-extensions:
+      BangPatterns
+      BlockArguments
+      ConstraintKinds
+      DataKinds
+      DefaultSignatures
+      DeriveDataTypeable
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveLift
+      DeriveTraversable
+      DerivingStrategies
+      DerivingVia
+      EmptyCase
+      ExistentialQuantification
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      KindSignatures
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      NoFieldSelectors
+      DuplicateRecordFields
+      OverloadedStrings
+      PatternSynonyms
+      QuantifiedConstraints
+      RankNTypes
+      RoleAnnotations
+      ScopedTypeVariables
+      StandaloneDeriving
+      StandaloneKindSignatures
+      TupleSections
+      TypeApplications
+      TypeFamilies
+      TypeFamilyDependencies
+      TypeOperators
+      UnliftedNewtypes
+      ViewPatterns
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-tools:
+      alex
   build-depends:
       base >=4.7 && <5
     , xic

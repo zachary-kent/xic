@@ -56,3 +56,51 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - xic
+
+default-extensions:
+- BangPatterns
+- BlockArguments
+- ConstraintKinds
+- DataKinds
+- DefaultSignatures
+- DeriveDataTypeable
+- DeriveFoldable
+- DeriveFunctor
+- DeriveGeneric
+- DeriveLift
+- DeriveTraversable 
+- DerivingStrategies 
+- DerivingVia 
+- EmptyCase
+- ExistentialQuantification
+- FlexibleContexts 
+- FlexibleInstances
+- FunctionalDependencies
+- GADTs
+- GeneralizedNewtypeDeriving 
+- InstanceSigs
+- KindSignatures
+- LambdaCase
+- MultiParamTypeClasses
+- MultiWayIf
+- NamedFieldPuns
+- NoFieldSelectors
+- DuplicateRecordFields
+- OverloadedStrings
+- PatternSynonyms
+- QuantifiedConstraints
+- RankNTypes
+- RoleAnnotations
+- ScopedTypeVariables 
+- StandaloneDeriving
+- StandaloneKindSignatures
+- TupleSections
+- TypeApplications
+- TypeFamilies
+- TypeFamilyDependencies
+- TypeOperators
+- UnliftedNewtypes
+- ViewPatterns
+
+build-tools: 
+- alex
