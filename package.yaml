@@ -20,6 +20,13 @@ description:         Please see the README on GitHub at <https://github.com/zach
 
 dependencies:
 - base >= 4.7 && < 5
+- array
+- bytestring
+- utf8-string
+- formatting
+- cleff
+- cleff-plugin
+- conduit
 
 ghc-options:
 - -Wall
@@ -31,6 +38,8 @@ ghc-options:
 - -Wmissing-home-modules
 - -Wpartial-fields
 - -Wredundant-constraints
+- -fplugin=Cleff.Plugin
+- -Wno-name-shadowing
 
 library:
   source-dirs: src
@@ -84,7 +93,6 @@ default-extensions:
 - MultiParamTypeClasses
 - MultiWayIf
 - NamedFieldPuns
-- NoFieldSelectors
 - DuplicateRecordFields
 - OverloadedStrings
 - PatternSynonyms
@@ -101,6 +109,7 @@ default-extensions:
 - TypeOperators
 - UnliftedNewtypes
 - ViewPatterns
+- ImportQualifiedPost
 
 build-tools: 
 - alex

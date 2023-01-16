@@ -26,6 +26,13 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Xic.Compile.Options
+      Xic.Lexer
+      Xic.Lexer.Char
+      Xic.Lexer.Diagnostic
+      Xic.Lexer.Error
+      Xic.Lexer.Position
+      Xic.Lexer.Token
   other-modules:
       Paths_xic
   hs-source-dirs:
@@ -57,7 +64,6 @@ library
       MultiParamTypeClasses
       MultiWayIf
       NamedFieldPuns
-      NoFieldSelectors
       DuplicateRecordFields
       OverloadedStrings
       PatternSynonyms
@@ -74,11 +80,19 @@ library
       TypeOperators
       UnliftedNewtypes
       ViewPatterns
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+      ImportQualifiedPost
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -fplugin=Cleff.Plugin -Wno-name-shadowing
   build-tools:
       alex
   build-depends:
-      base >=4.7 && <5
+      array
+    , base >=4.7 && <5
+    , bytestring
+    , cleff
+    , cleff-plugin
+    , conduit
+    , formatting
+    , utf8-string
   default-language: Haskell2010
 
 executable xic-exe
@@ -114,7 +128,6 @@ executable xic-exe
       MultiParamTypeClasses
       MultiWayIf
       NamedFieldPuns
-      NoFieldSelectors
       DuplicateRecordFields
       OverloadedStrings
       PatternSynonyms
@@ -131,11 +144,19 @@ executable xic-exe
       TypeOperators
       UnliftedNewtypes
       ViewPatterns
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+      ImportQualifiedPost
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -fplugin=Cleff.Plugin -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N
   build-tools:
       alex
   build-depends:
-      base >=4.7 && <5
+      array
+    , base >=4.7 && <5
+    , bytestring
+    , cleff
+    , cleff-plugin
+    , conduit
+    , formatting
+    , utf8-string
     , xic
   default-language: Haskell2010
 
@@ -173,7 +194,6 @@ test-suite xic-test
       MultiParamTypeClasses
       MultiWayIf
       NamedFieldPuns
-      NoFieldSelectors
       DuplicateRecordFields
       OverloadedStrings
       PatternSynonyms
@@ -190,10 +210,18 @@ test-suite xic-test
       TypeOperators
       UnliftedNewtypes
       ViewPatterns
-  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+      ImportQualifiedPost
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -fplugin=Cleff.Plugin -Wno-name-shadowing -threaded -rtsopts -with-rtsopts=-N
   build-tools:
       alex
   build-depends:
-      base >=4.7 && <5
+      array
+    , base >=4.7 && <5
+    , bytestring
+    , cleff
+    , cleff-plugin
+    , conduit
+    , formatting
+    , utf8-string
     , xic
   default-language: Haskell2010
