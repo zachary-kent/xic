@@ -7,9 +7,11 @@ import Cleff
 import Cleff.Error
 import Cleff.State (State)
 import Cleff.State qualified as State
+import Control.Monad
 import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Lazy qualified as ByteString
 import Data.ByteString.Lazy.UTF8 qualified as UTF8
+import Data.Int (Int64)
 import Xic.Compile.Options (Lang (..))
 import Xic.Lexer.Char (string)
 import Xic.Lexer.Error qualified as Lexer
@@ -24,6 +26,7 @@ import Prelude hiding (Ordering (..))
 @string  = \" (\\ \" | ~\")* \"
 @comment = "//" .*
 @id      = [a-zA-Z][a-zA-Z0-9\'\_]*
+@int     = \-? [0-9]+
 
 tokens :-
   @comment | $white    ;
@@ -62,6 +65,7 @@ tokens :-
   \_                   { rword WILDCARD }
   @char                { withLexeme charLiteral }
   @string              { withLexeme stringLiteral }
+  @int                 { withLexeme intLiteral }
   "int"                { rword TYINT }
   "bool"               { rword TYBOOL }
   "record" / { isRho } { rword RECORD }
@@ -78,23 +82,33 @@ rword tok = token \_ _ -> tok
 alexEOF :: Alex Token
 alexEOF = pure EOF
 
-withLexeme :: (ByteString -> Alex a) -> AlexAction a
-withLexeme tok (_, _, lexeme, _) len = tok $ ByteString.take len lexeme
+withLexeme :: (String -> Alex a) -> AlexAction a
+withLexeme tok (_, _, lexeme, _) len =
+  tok $ UTF8.toString $ ByteString.take len lexeme
 
-charLiteral :: ByteString -> Alex Token
+charLiteral :: String -> Alex Token
 charLiteral lexeme =
   case string lexeme of
     Right [c] -> pure $ CHAR c
     _ -> alexError "error:Invalid character constant"
 
-identifier :: ByteString -> Alex Token
-identifier = pure . ID . UTF8.toString
+identifier :: String -> Alex Token
+identifier = pure . ID
 
-stringLiteral :: ByteString -> Alex Token
+stringLiteral :: String -> Alex Token
 stringLiteral lexeme =
   case string lexeme of
     Right lit -> pure $ STRING lit
     Left _ -> alexError "error:Invalid string literal"
+
+intLiteral :: String -> Alex Token
+intLiteral lexeme = do
+  when (not $ inRange int64Range value) do
+    alexError "error:Integer literal too large"
+  pure $ INT $ fromInteger value
+    where
+      value = read lexeme
+      int64Range = (toInteger @Int64 minBound, toInteger @Int64 maxBound)
 
 getInput :: State AlexState :> es => Eff es AlexInput
 getInput = do

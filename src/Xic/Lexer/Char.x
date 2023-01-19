@@ -4,7 +4,6 @@
 module Xic.Lexer.Char (string) where
 
 import Control.Monad (when)
-import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Lazy.UTF8 qualified as UTF8
 import Data.Char (chr, ord)
 }
@@ -14,13 +13,13 @@ import Data.Char (chr, ord)
 $hexdigit = [a-fA-F0-9]
 
 tokens :-
-  "\\x{" $hexdigit{1,6} \} { withLexeme lexEscapedCodepoint }
-  \\ n                     { char '\n' }
-  \\ \'                    { char '\'' }
-  \\ \\                    { char '\\' }
-  \"                       { char '"' }
-  \\                       { \_ _ -> invalidEscape }
-  .                        { withLexeme $ pure . head }
+  \\ x \{ $hexdigit{1, 6} \} { withLexeme lexEscapedCodepoint }
+  \\ n                       { char '\n' }
+  \\ \'                      { char '\'' }
+  \\ \\                      { char '\\' }
+  \"                         { char '"' }
+  \\                         { \_ _ -> invalidEscape }
+  .                          { withLexeme $ pure . head }
   
 {
 withLexeme :: (String -> Alex a) -> AlexAction a
@@ -37,7 +36,7 @@ readHex = read . ("0x" ++)
 
 lexEscapedCodepoint :: String -> Alex Char
 lexEscapedCodepoint lexeme = do
-  let code = readHex $ init $ drop 2 lexeme
+  let code = readHex $ init $ drop 3 lexeme
   when (code > ord maxBound) invalidEscape
   pure $ chr code
 
@@ -53,10 +52,10 @@ lexString = do
       alexSetInput next
       (:) <$> action (ignorePendingBytes input) len <*> lexString
 
-string :: ByteString -> Either String String
+string :: String -> Either String String
 string lexeme = runAlex trimmed lexString
   where
-    trimmed = init $ tail $ UTF8.toString lexeme
+    trimmed = init $ tail $ lexeme
 
 alexEOF :: Alex a
 alexEOF = alexError "error:Invalid character constant"
