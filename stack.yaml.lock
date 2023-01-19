@@ -3,10 +3,17 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: cleff-plugin-0.1.0.0@sha256:b8643536e5733d60cdc916fe60dc6dc7b407ae06d5b033a5c887f5f8322043ce,2895
+    pantry-tree:
+      sha256: f4f286ebc8d8e9344873acbae6373dd7f9ac223b72b5d9581f10c4a06de7d842
+      size: 449
+  original:
+    hackage: cleff-plugin-0.1.0.0
 snapshots:
 - completed:
-    sha256: 5cacb39a2c21842535dc0a31e2005d3b1eb18e451a89d58c28381e1efdb9520f
-    size: 647983
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/nightly/2022/11/12.yaml
-  original: nightly-2022-11-12
+    sha256: 4905c93319aa94aa53da8f41d614d7bacdbfe6c63a8c6132d32e6e62f24a9af4
+    size: 649315
+    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/20/6.yaml
+  original: lts-20.6

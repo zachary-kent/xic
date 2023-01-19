@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Lib
+import Xic.Compile qualified as Compile
 
 main :: IO ()
-main = someFunc
+main = Compile.compile
