@@ -25,7 +25,8 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Xic.Compile
+      Xic.Compile.File
       Xic.Compile.Options
       Xic.Lexer
       Xic.Lexer.Char
@@ -38,6 +39,7 @@ library
   hs-source-dirs:
       src
   default-extensions:
+      ApplicativeDo
       BangPatterns
       BlockArguments
       ConstraintKinds
@@ -91,7 +93,9 @@ library
     , cleff
     , cleff-plugin
     , conduit
+    , filepath
     , formatting
+    , optparse-applicative
     , utf8-string
   default-language: Haskell2010
 
@@ -102,6 +106,7 @@ executable xic-exe
   hs-source-dirs:
       app
   default-extensions:
+      ApplicativeDo
       BangPatterns
       BlockArguments
       ConstraintKinds
@@ -155,7 +160,9 @@ executable xic-exe
     , cleff
     , cleff-plugin
     , conduit
+    , filepath
     , formatting
+    , optparse-applicative
     , utf8-string
     , xic
   default-language: Haskell2010
@@ -168,6 +175,7 @@ test-suite xic-test
   hs-source-dirs:
       test
   default-extensions:
+      ApplicativeDo
       BangPatterns
       BlockArguments
       ConstraintKinds
@@ -221,7 +229,9 @@ test-suite xic-test
     , cleff
     , cleff-plugin
     , conduit
+    , filepath
     , formatting
+    , optparse-applicative
     , utf8-string
     , xic
   default-language: Haskell2010

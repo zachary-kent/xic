@@ -8,6 +8,7 @@ import Cleff.Error
 import Cleff.State (State)
 import Cleff.State qualified as State
 import Data.ByteString.Lazy (ByteString)
+import Data.ByteString.Lazy.UTF8 qualified as UTF8
 import Xic.Compile.Options (Lang (..))
 import Xic.Lexer.Char (string)
 import Xic.Lexer.Error qualified as Lexer
@@ -18,7 +19,13 @@ import Prelude hiding (Ordering (..))
 
 %wrapper "monad-bytestring"
 
+@char    = \' (\\ \' | ~\')* \'
+@string  = \" (\\ \" | ~\")* \"
+@comment = "//" .*
+@id      = [a-zA-Z][a-zA-Z0-9\'\_]*
+
 tokens :-
+  @comment             ;
   "use"                { rword USE }
   "if"                 { rword IF }
   "else"               { rword ELSE }
@@ -52,14 +59,14 @@ tokens :-
   \;                   { rword SEMICOLON }
   \,                   { rword COMMA }
   \_                   { rword WILDCARD }
-  \' (\\ \' | ~\')* \' { \(_, _, lexeme, _) _ -> charLiteral lexeme }
-  \" (\\ \" | ~\")* \" { \(_, _, lexeme, _) _ -> stringLiteral lexeme }
+  @char                { withLexeme charLiteral }
+  @string              { withLexeme stringLiteral }
   "int"                { rword TYINT }
   "bool"               { rword TYBOOL }
   "record" / { isRho } { rword RECORD }
   "null"   / { isRho } { rword NULL }
   \.       / { isRho } { rword DOT }
-
+  @id                  { withLexeme identifier }
 {
 isRho :: Lang -> AlexInput -> Int -> AlexInput -> Bool
 isRho lang _ _ _ = lang == Rho
@@ -70,11 +77,17 @@ rword tok = token \_ _ -> tok
 alexEOF :: Alex Token
 alexEOF = pure EOF
 
+withLexeme :: (ByteString -> Alex a) -> AlexAction a
+withLexeme tok (_, _, lexeme, _) _ = tok lexeme
+
 charLiteral :: ByteString -> Alex Token
 charLiteral lexeme =
   case string lexeme of
     Right [c] -> pure $ CHAR c
     _ -> alexError "error:Invalid character constant"
+
+identifier :: ByteString -> Alex Token
+identifier = pure . ID . UTF8.toString
 
 stringLiteral :: ByteString -> Alex Token
 stringLiteral lexeme =

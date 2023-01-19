@@ -27,6 +27,8 @@ dependencies:
 - cleff
 - cleff-plugin
 - conduit
+- filepath
+- optparse-applicative
 
 ghc-options:
 - -Wall
@@ -67,6 +69,7 @@ tests:
     - xic
 
 default-extensions:
+- ApplicativeDo
 - BangPatterns
 - BlockArguments
 - ConstraintKinds

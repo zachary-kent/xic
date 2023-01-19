@@ -1,18 +1,26 @@
-module Xic.Lexer.Diagnostic (scan) where
+module Xic.Lexer.Diagnostic (diagnostic) where
 
 import Cleff
 import Cleff.Error
 import Cleff.State
+import Conduit
 import Data.ByteString.Lazy (ByteString)
-import Data.Conduit
+import Data.ByteString.UTF8 qualified as UTF8
+import Data.Conduit.Combinators qualified as Conduit
+import Xic.Compile.File qualified as File
 import Xic.Compile.Options (Lang)
 import Xic.Lexer qualified as Lexer
 import Xic.Lexer.Error qualified as Error
 import Xic.Lexer.Position (Positioned (..))
 import Xic.Lexer.Token qualified as Token
 
-diagnostic :: Lang -> ByteString -> [String]
-diagnostic lang = map show . scan lang
+diagnostic :: (MonadUnliftIO m, MonadResource m) => Lang -> FilePath -> ByteString -> ConduitT i o m ()
+diagnostic lang outputPath program =
+  yieldMany (scan lang program)
+    .| Conduit.map show
+    .| Conduit.unlines
+    .| Conduit.map UTF8.fromString
+    .| File.write outputPath
 
 scan :: Lang -> ByteString -> [Positioned String]
 scan lang s = fst $ runPure $ runState (Lexer.initialState s) $ scanM lang
