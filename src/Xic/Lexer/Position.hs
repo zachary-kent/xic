@@ -18,4 +18,4 @@ data Positioned a = Positioned
 
 instance Show a => Show (Positioned a) where
   show Positioned {value, position} =
-    formatToString (shown % " " % shown) value position
+    formatToString (shown % " " % shown) position value

@@ -14,15 +14,18 @@ import Data.Char (chr, ord)
 $hexdigit = [a-fA-F0-9]
 
 tokens :-
-  "\\x{" $hexdigit{1,6} \} { \(_, _, _, lexeme) _ -> lexEscapedCodepoint lexeme }
+  "\\x{" $hexdigit{1,6} \} { withLexeme lexEscapedCodepoint }
   \\ n                     { char '\n' }
   \\ \'                    { char '\'' }
   \\ \\                    { char '\\' }
   \"                       { char '"' }
   \\                       { \_ _ -> invalidEscape }
-  .                        { token \(_, _, _, lexeme) _ -> head lexeme }
+  .                        { withLexeme $ pure . head }
   
 {
+withLexeme :: (String -> Alex a) -> AlexAction a
+withLexeme tok (_, _, _, lexeme) len = tok $ take len lexeme
+
 char :: token -> AlexAction token
 char c = token \_ _ -> c
 

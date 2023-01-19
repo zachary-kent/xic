@@ -22,12 +22,19 @@ diagnostic lang outputPath program =
     .| Conduit.map UTF8.fromString
     .| File.write outputPath
 
-scan :: Lang -> ByteString -> [Positioned String]
+newtype Line = Line String
+
+instance Show Line where
+  show (Line line) = line
+
+scan :: Lang -> ByteString -> [Positioned Line]
 scan lang s = fst $ runPure $ runState (Lexer.initialState s) $ scanM lang
 
-scanM :: State Lexer.AlexState :> es => Lang -> Eff es [Positioned String]
+scanM :: State Lexer.AlexState :> es => Lang -> Eff es [Positioned Line]
 scanM lang =
   runError (Lexer.handleLex lang) >>= \case
     Right (Positioned {value = Token.EOF}) -> pure []
-    Right token -> (fmap show token :) <$> scanM lang
-    Left err -> pure [Error.unError <$> err]
+    Right token -> (line :) <$> scanM lang
+      where
+        line = Line . show <$> token
+    Left err -> pure [Line . Error.unError <$> err]

@@ -8,6 +8,7 @@ import Cleff.Error
 import Cleff.State (State)
 import Cleff.State qualified as State
 import Data.ByteString.Lazy (ByteString)
+import Data.ByteString.Lazy qualified as ByteString
 import Data.ByteString.Lazy.UTF8 qualified as UTF8
 import Xic.Compile.Options (Lang (..))
 import Xic.Lexer.Char (string)
@@ -25,7 +26,7 @@ import Prelude hiding (Ordering (..))
 @id      = [a-zA-Z][a-zA-Z0-9\'\_]*
 
 tokens :-
-  @comment             ;
+  @comment | $white    ;
   "use"                { rword USE }
   "if"                 { rword IF }
   "else"               { rword ELSE }
@@ -78,7 +79,7 @@ alexEOF :: Alex Token
 alexEOF = pure EOF
 
 withLexeme :: (ByteString -> Alex a) -> AlexAction a
-withLexeme tok (_, _, lexeme, _) _ = tok lexeme
+withLexeme tok (_, _, lexeme, _) len = tok $ ByteString.take len lexeme
 
 charLiteral :: ByteString -> Alex Token
 charLiteral lexeme =

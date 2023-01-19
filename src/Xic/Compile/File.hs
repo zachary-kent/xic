@@ -32,10 +32,10 @@ isXiSource _ = False
 validateExtension :: FilePath -> Maybe File
 validateExtension path =
   case takeExtension path of
-    "xi" -> Just $ File Xi Source path
-    "ixi" -> Just $ File Xi Interface path
-    "rh" -> Just $ File Rho Source path
-    "ri" -> Just $ File Rho Interface path
+    ".xi" -> Just $ File Xi Source path
+    ".ixi" -> Just $ File Xi Interface path
+    ".rh" -> Just $ File Rho Source path
+    ".ri" -> Just $ File Rho Interface path
     _ -> Nothing
 
 diagnosticPath :: Options -> FilePath -> FilePath
